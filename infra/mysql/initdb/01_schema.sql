@@ -18,6 +18,7 @@ CREATE TABLE users.cuentas_bancarias (
 CREATE TABLE users.usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
+    dni VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     telefono VARCHAR(255) NOT NULL,
     tipo VARCHAR(255) NOT NULL,
