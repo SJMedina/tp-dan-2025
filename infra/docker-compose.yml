@@ -136,19 +136,14 @@ services:
       - rabbitmq
       - dan-eureka-server
     environment:
-      # force Spring to use the internal docker service name "mysql" (resuelve dentro de la red)
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/users?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
       - SPRING_DATASOURCE_USERNAME=usr_app
       - SPRING_DATASOURCE_PASSWORD=usrapp
       - SPRING_DATASOURCE_HIKARI_INITIALIZATION_FAIL_TIMEOUT=-1
-      # rabbit
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
-      # perfil
-      - SPRING_PROFILES_ACTIVE=default
-      SPRING_PROFILES_ACTIVE: eureka
-      SERVER_PORT: 8081
-      #SPRING_PROFILES_ACTIVE: default
+      - SPRING_PROFILES_ACTIVE=eureka
+      - SERVER_PORT=8081
 
   reservas-svc:
     build:
@@ -162,15 +157,13 @@ services:
       - rabbitmq
       - dan-eureka-server
     environment:
-      SPRING_PROFILES_ACTIVE: eureka
-      SERVER_PORT: 8082
-      #SPRING_PROFILES_ACTIVE: default
-      - SPRING_PROFILES_ACTIVE=default
+      - SPRING_PROFILES_ACTIVE=eureka
+      - SERVER_PORT=8082
 
   gestion-svc:
     build:
       context: ../services/gestion-svc
-      # container_name: gestion-svc no usado con eureka
+    # container_name: gestion-svc no usado con eureka
     restart: unless-stopped
     # ports:
     #   - "8083:8083" no necesitamos exponer el puerto en el host lo accedemos a través del gateway
@@ -185,10 +178,8 @@ services:
       - SPRING_DATASOURCE_HIKARI_INITIALIZATION_FAIL_TIMEOUT=-1
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
-      - SPRING_PROFILES_ACTIVE=default
-      SPRING_PROFILES_ACTIVE: eureka
-      SERVER_PORT: 8083
-      #SPRING_PROFILES_ACTIVE: default
+      - SPRING_PROFILES_ACTIVE=eureka
+      - SERVER_PORT=8083
 
   dan-spring-gateway:
     build:
@@ -203,9 +194,8 @@ services:
       - gestion-svc
       - dan-eureka-server
     environment:
-      SPRING_PROFILES_ACTIVE: eureka
-      SERVER_PORT: 8080
-      #SPRING_PROFILES_ACTIVE: default
+      - SPRING_PROFILES_ACTIVE=eureka
+      - SERVER_PORT=8080
 
 volumes:
   mysql_data:
