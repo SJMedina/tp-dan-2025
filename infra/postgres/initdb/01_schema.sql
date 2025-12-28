@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS tp_dan.habitacion (
     numero integer NOT NULL,
     piso integer NOT NULL,
     id_tipo integer NOT NULL REFERENCES tp_dan.tipo_habitacion(id),
-    id_hotel integer NOT NULL REFERENCES tp_dan.hotel(id)
+    id_hotel integer REFERENCES tp_dan.hotel(id)
 );
 
 -- Secuencia para amenity_hotel_id_seq

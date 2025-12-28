@@ -1,4 +1,3 @@
-// src/main/java/edu/utn/frsf/isi/dan/user/controller/HomeController.java
 package edu.utn.frsf.isi.dan.user.controller;
 
 import org.springframework.http.ResponseEntity;
