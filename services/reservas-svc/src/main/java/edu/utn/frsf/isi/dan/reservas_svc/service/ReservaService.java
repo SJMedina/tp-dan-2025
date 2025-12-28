@@ -3,6 +3,8 @@ package edu.utn.frsf.isi.dan.reservas_svc.service;
 import edu.utn.frsf.isi.dan.reservas_svc.model.EstadoReserva;
 import edu.utn.frsf.isi.dan.reservas_svc.model.Habitacion;
 import edu.utn.frsf.isi.dan.reservas_svc.model.Pago;
+import edu.utn.frsf.isi.dan.reservas_svc.client.UserServiceClient;
+import edu.utn.frsf.isi.dan.reservas_svc.dto.UserDto;
 import edu.utn.frsf.isi.dan.reservas_svc.model.Reserva;
 import edu.utn.frsf.isi.dan.reservas_svc.model.Review;
 import edu.utn.frsf.isi.dan.reservas_svc.repository.ReservaRepository;
@@ -24,6 +26,9 @@ import java.util.Optional;
 public class ReservaService {
     @Autowired
     private ReservaRepository reservaRepository;
+
+    @Autowired
+    private UserServiceClient userServiceClient;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -57,7 +62,26 @@ public class ReservaService {
         }
 
         log.info("Guardando reserva con estado: {}", reserva.getEstadoReserva());
+        // Validate reservation before saving
+        validateReservation(reserva);
         return reservaRepository.save(reserva);
+    }
+
+    private void validateReservation(Reserva reserva) {
+        // Validate user exists using idUsuario from Huesped
+        if (reserva.getHuesped() != null && reserva.getHuesped().getIdUsuario() != null) {
+            try {
+                Long userId = Long.parseLong(reserva.getHuesped().getIdUsuario());
+                UserDto user = userServiceClient.getHuesped(userId);
+                if (user == null) {
+                    throw new RuntimeException("Huésped no encontrado con ID: " + reserva.getHuesped().getIdUsuario());
+                }
+            } catch (NumberFormatException e) {
+                throw new RuntimeException("ID de huésped inválido: " + reserva.getHuesped().getIdUsuario());
+            } catch (Exception e) {
+                throw new RuntimeException("Error validando huésped: " + e.getMessage());
+            }
+        }
     }
 
     /**
