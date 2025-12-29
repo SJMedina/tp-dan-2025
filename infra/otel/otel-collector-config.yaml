@@ -8,28 +8,30 @@ receivers:
 
 processors:
   batch:
+    timeout: 1s
+    send_batch_size: 1024
   memory_limiter:
     limit_mib: 512
     check_interval: 1s
 
 exporters:
-  # Export traces to Tempo
+  # Export traces to Tempo via OTLP
   otlp/tempo:
-    endpoint: http://tempo:3200
+    endpoint: tempo:4317
     tls:
       insecure: true
 
   # Export metrics to Prometheus
   prometheus:
     endpoint: "0.0.0.0:8889"
-    const_labels:
-      label1: value1
 
-  # Export logs to Loki
-  loki:
-    endpoint: http://loki:3100/loki/api/v1/push
+  # Export logs to Loki via OTLP HTTP
+  otlphttp/loki:
+    endpoint: http://loki:3100/otlp
+    tls:
+      insecure: true
 
-  # Debugging exporter (replaces deprecated logging)
+  # Debugging exporter
   debug:
     verbosity: detailed
 
@@ -38,16 +40,16 @@ service:
     traces:
       receivers: [otlp]
       processors: [memory_limiter, batch]
-      exporters: [otlp/tempo, debug]
-    
+      exporters: [otlp/tempo]
+
     metrics:
       receivers: [otlp]
       processors: [memory_limiter, batch]
-      exporters: [prometheus, debug]
-    
+      exporters: [prometheus]
+
     logs:
       receivers: [otlp]
       processors: [memory_limiter, batch]
-      exporters: [loki, debug]
+      exporters: [otlphttp/loki]
 
   extensions: []

@@ -13,6 +13,10 @@ public class HuespedService {
     @Autowired
     private HuespedRepository repository;
 
+    public Huesped obtenerHuespedPorId(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
     public Huesped actualizarDatosHuesped(Long huespedId, Huesped datosActualizados) {
         Huesped huesped = repository.findById(huespedId)
                 .orElseThrow(() -> new IllegalArgumentException("Huésped no encontrado"));

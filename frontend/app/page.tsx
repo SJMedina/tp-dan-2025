@@ -105,7 +105,7 @@ export default function HomePage() {
                         <div className="bg-card border border-border rounded-lg p-4">
                             <h2 className="text-xl font-semibold mb-2">Reservas Service - Puerto 8082</h2>
                             <p className="text-sm text-muted-foreground">
-                                Búsqueda avanzada de habitaciones y gestión del ciclo de vida de reservas
+                                Búsqueda avanzada de habitaciones y gestión del ciclo de vida de reservas • Base de datos: MongoDB
                             </p>
                         </div>
 

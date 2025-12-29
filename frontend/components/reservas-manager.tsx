@@ -119,8 +119,10 @@ export function ReservasManager() {
 
   const fetchHabitacionesDisponibles = async () => {
     try {
-      const response = await fetch(getReservasUrl(API_ENDPOINTS.RESERVAS.HABITACIONES))
-      if (!response.ok) throw new Error("Error")
+      const url = getReservasUrl(API_ENDPOINTS.RESERVAS.HABITACIONES)
+      console.log("[DEBUG] Fetching habitaciones from:", url)
+      const response = await fetch(url)
+      if (!response.ok) throw new Error(`Error ${response.status}`)
       const data = await response.json()
       setHabitacionesDisponibles(Array.isArray(data) ? data : [])
     } catch (error) {
@@ -147,7 +149,9 @@ export function ReservasManager() {
   const fetchReservas = async () => {
     setLoading(true)
     try {
-      const response = await fetch(getReservasUrl(API_ENDPOINTS.RESERVAS.RESERVAS))
+      const url = getReservasUrl(API_ENDPOINTS.RESERVAS.RESERVAS)
+      console.log("[DEBUG] Fetching reservas from:", url)
+      const response = await fetch(url)
       if (!response.ok) {
         const errorText = await response.text()
         console.error(`Error ${response.status}: ${errorText}`)

@@ -1,8 +1,10 @@
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-alpine
+
+RUN apk add --no-cache curl
 
 WORKDIR /app
 
-COPY target/dan-eureka-server-0.0.1-SNAPSHOT.jar app.jar
+COPY target/*.jar app.jar
 
 EXPOSE 8761
 

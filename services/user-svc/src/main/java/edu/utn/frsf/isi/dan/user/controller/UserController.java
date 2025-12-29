@@ -44,6 +44,22 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Obtener usuario huesped por ID",
+               description = "Obtiene los datos de un usuario huesped por su ID",
+               responses = {
+                   @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Huésped encontrado"),
+                   @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Huésped no encontrado")
+               }
+    )
+    @GetMapping("/huesped/{id}")
+    public ResponseEntity<Huesped> obtenerHuespedPorId(@PathVariable Long id) {
+        Huesped huesped = huespedService.obtenerHuespedPorId(id);
+        if (huesped == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(huesped);
+    }
+
     @Operation(summary = "Actualizar datos de usuario huesped", description = "Actualiza los datos de un usuario huesped existente",
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Datos actualizados correctamente"),

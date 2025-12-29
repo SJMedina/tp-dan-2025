@@ -1,34 +1,41 @@
-// Configuration for multiple backend services
+// Configuration for backend services via Gateway
+// El Gateway (puerto 8080) es el punto de entrada único a todos los microservicios
+
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || "http://localhost:8080"
 
 export const API_ENDPOINTS = {
-    // Servicio de Usuarios (user-svc)
+    // Servicio de Usuarios (user-svc) - via Gateway /users/*
     USER: {
-        BASE_URL: "http://localhost:8081",
-        USERS: "/users",
-        USERS_HUESPED: "/users/huesped",
-        USERS_PROPIETARIO: "/users/propietario",
-        BANCOS: "/bancos",
+        USERS: "/users/users",
+        USERS_HUESPED: "/users/users/huesped",
+        USERS_PROPIETARIO: "/users/users/propietario",
+        BANCOS: "/users/bancos",
+        INFO: "/users/info",
     },
 
-    // Servicio de Reservas (reservas-svc)
+    // Servicio de Reservas (reservas-svc) - via Gateway /reservas/*
     RESERVAS: {
-        BASE_URL: "http://localhost:8082",
-        RESERVAS: "/reservas",
-        HABITACIONES: "/habitaciones",
-        HABITACIONES_BUSCAR: "/habitaciones/buscar",
+        RESERVAS: "/reservas/reservas",
+        HABITACIONES: "/reservas/habitaciones",
+        HABITACIONES_BUSCAR: "/reservas/habitaciones/buscar",
+        INFO: "/reservas/info",
     },
 
-    // Servicio de Gestión (gestion-svc)
+    // Servicio de Gestión (gestion-svc) - via Gateway /gestion/*
     GESTION: {
-        BASE_URL: "http://localhost:8083",
-        HOTELES: "/hoteles",
-        TIPOS_HABITACION: "/tipos-habitacion",
-        TARIFAS: "/tarifas",
-        HABITACIONES: "/habitaciones",
+        HOTELES: "/gestion/hoteles",
+        TIPOS_HABITACION: "/gestion/tipos-habitacion",
+        TARIFAS: "/gestion/tarifas",
+        HABITACIONES: "/gestion/habitaciones",
+        INFO: "/gestion/info",
     }
 }
 
-// Helper functions for API calls
-export const getUserUrl = (endpoint: string) => `${API_ENDPOINTS.USER.BASE_URL}${endpoint}`
-export const getReservasUrl = (endpoint: string) => `${API_ENDPOINTS.RESERVAS.BASE_URL}${endpoint}`
-export const getGestionUrl = (endpoint: string) => `${API_ENDPOINTS.GESTION.BASE_URL}${endpoint}`
+// Helper functions - todas usan el Gateway
+export const getUserUrl = (endpoint: string) => `${GATEWAY_URL}${endpoint}`
+export const getReservasUrl = (endpoint: string) => `${GATEWAY_URL}${endpoint}`
+export const getGestionUrl = (endpoint: string) => `${GATEWAY_URL}${endpoint}`
+
+// Para debugging
+export const getGatewayUrl = () => GATEWAY_URL
+

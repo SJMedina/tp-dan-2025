@@ -34,11 +34,17 @@ class ReservaServiceTest {
     
     @BeforeEach
     void setUp() {
-        // Setup valid test data
-        validUser = new UserDto(1L, "Juan", "Pérez", "juan@email.com", "12345678");
-        
+        // Setup valid test data - UserDto debe coincidir con Usuario/Huesped de user-svc
+        validUser = UserDto.builder()
+                .id(1L)
+                .nombre("Juan Pérez")
+                .email("juan@email.com")
+                .telefono("123456789")
+                .dni("12345678")
+                .build();
+
         Huesped huesped = Huesped.builder()
-                .idUsuario("1")
+                .idUsuario("1")  // Este ID debe corresponder a un Huesped real en user-svc
                 .nombreApellido("Juan Pérez")
                 .email("juan@email.com")
                 .build();

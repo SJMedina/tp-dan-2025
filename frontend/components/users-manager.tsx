@@ -22,6 +22,7 @@ export function UsersManager() {
     nombre: "",
     email: "",
     telefono: "",
+    dni: "",
     fechaNacimiento: "",
     numeroCC: "",
     nombreTitular: "",
@@ -96,6 +97,7 @@ export function UsersManager() {
           nombre: "",
           email: "",
           telefono: "",
+          dni: "",
           fechaNacimiento: "",
           numeroCC: "",
           nombreTitular: "",
@@ -340,6 +342,15 @@ export function UsersManager() {
                       value={huespedForm.telefono}
                       onChange={(e) => setHuespedForm({ ...huespedForm, telefono: e.target.value })}
                       placeholder="+54 9 342-555-1234"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>DNI *</Label>
+                    <Input
+                      required
+                      value={huespedForm.dni}
+                      onChange={(e) => setHuespedForm({ ...huespedForm, dni: e.target.value })}
+                      placeholder="12345678"
                     />
                   </div>
                   <div className="space-y-2">
